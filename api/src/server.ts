@@ -10,6 +10,7 @@ import { getLink } from './routes/get-links'
 import { getParticipants } from './routes/get-participants'
 import { createInvite } from './routes/create-invite'
 import { updateTrip } from './routes/update-trip'
+import { getTrip } from './routes/get-trip'
 
 const app = fastify()
 
@@ -17,6 +18,7 @@ const app = fastify()
 app.register(confirmTrip)
 app.register(createTrip)
 app.register(updateTrip)
+app.register(getTrip)
 
 // Participants
 app.register(confirmParticipant)
