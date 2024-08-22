@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import z from 'zod'
 import { prisma } from '../lib/prisma'
 import { dayjs } from '../lib/dayjs'
+import { parse } from 'path'
 
 export async function createActivity(app: FastifyInstance) {
   app.post('/trips/:tripId/activities', async (request, reply) => {
@@ -17,13 +18,12 @@ export async function createActivity(app: FastifyInstance) {
 
     const parsed = schema.safeParse(request)
 
-    console.log(request.body)
     if (!parsed.success) {
       return reply.status(400).send({ error: parsed.error.errors })
     }
     
-    const { tripId } = request.params as any 
-    const { title, occurs_at } = request.body as any 
+    const { tripId } = parsed.data.params
+    const { title, occurs_at } = parsed.data.body
 
     const trip = await prisma.trip.findUnique({
       where: {

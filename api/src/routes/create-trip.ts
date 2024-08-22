@@ -30,12 +30,10 @@ export async function createTrip(app: FastifyInstance) {
     const { destination, starts_at, ends_at, owner_name, owner_email, users_to_invite } = parsed.data
 
     if (dayjs(starts_at).isBefore(new Date())) {
-      console.log(starts_at)
       return reply.status(400).send({ error: 'Invalid trip start date' })
     }
 
     if (dayjs(ends_at).isBefore(starts_at)) {
-      console.log(ends_at)
       return reply.status(400).send({ error: 'Invalid trip end date' })
     }
 

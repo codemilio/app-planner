@@ -24,8 +24,8 @@ export async function createInvite(app: FastifyInstance) {
       return reply.status(400).send({ error: parsed.error.errors })
     }
 
-    const { tripId } = request.params as any
-    const { email, name } = request.body as any
+    const { tripId } = parsed.data.params
+    const { email, name } = parsed.data.body
 
     const trip = await prisma.trip.findUnique({
       where: { id: tripId }

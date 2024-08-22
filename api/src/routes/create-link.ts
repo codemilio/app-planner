@@ -21,9 +21,9 @@ export async function createLink(app: FastifyInstance) {
       return reply.status(400).send({ error: parsed.error.errors })
     }
     
-    const { tripId } = request.params as any 
-    const { title, url } = request.body as any 
-
+    const { tripId } = parsed.data.params
+    const { title, url } = parsed.data.body
+    
     const trip = await prisma.trip.findUnique({
       where: {
         id: tripId

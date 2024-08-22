@@ -15,7 +15,7 @@ export async function confirmParticipant(app: FastifyInstance) {
       return reply.status(400).send({ error: parsed.error.errors })
     }
 
-    const { participantId } = request.params as any
+    const { participantId } = parsed.data
     const participant = await prisma.participant.findUnique({
       where: {
         id: participantId

@@ -18,7 +18,7 @@ export async function getActivities(app: FastifyInstance) {
       return reply.status(400).send({ error: parsed.error.errors })
     }
     
-    const { tripId } = request.params as any 
+    const { tripId } = parsed.data.params 
 
     const trip = await prisma.trip.findUnique({
       where: {  id: tripId  },
