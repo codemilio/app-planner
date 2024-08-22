@@ -3,7 +3,6 @@ import z from 'zod'
 
 import { prisma } from '../lib/prisma'
 
-
 export async function confirmParticipant(app: FastifyInstance) {
   app.get('/participants/:participantId/confirm', async (request, reply) => {
     const schema = z.object({

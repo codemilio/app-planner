@@ -15,6 +15,8 @@ model Trip {
   ends_at      DateTime
   destination  String
   participants Participant[]
+  activities   Activity[]
+  links        Link[]
 
   @@map("trips")
 }
@@ -25,9 +27,31 @@ model Participant {
   email        String  @unique
   is_confirmed Boolean @default(false)
   is_owner     Boolean @default(false)
-  trip_id      String
 
-  trip Trip @relation(fields: [trip_id], references: [id])
+  trip_id String
+  trip    Trip   @relation(fields: [trip_id], references: [id])
 
   @@map("participants")
+}
+
+model Activity {
+  id        String   @id @default(uuid())
+  title     String
+  occurs_at DateTime
+
+  trip_id String
+  trip    Trip   @relation(fields: [trip_id], references: [id])
+
+  @@map("activities")
+}
+
+model Link {
+  id    String @id @default(uuid())
+  title String
+  url   String
+
+  trip_id String
+  trip    Trip   @relation(fields: [trip_id], references: [id])
+
+  @@map("links")
 }
