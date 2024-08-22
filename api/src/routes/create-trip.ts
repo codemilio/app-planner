@@ -13,7 +13,7 @@ dayjs.extend(localizedFormat)
 
 export async function createTrip(app: FastifyInstance) {
   app.post('/register-trip', async (request, reply) => {
-    const tripSchema = z.object({
+    const schema = z.object({
       destination: z.string().min(4),
       starts_at: z.coerce.date(),
       ends_at: z.coerce.date(),
@@ -25,7 +25,7 @@ export async function createTrip(app: FastifyInstance) {
       }))
     })
 
-    const parsed = tripSchema.safeParse(request.body)
+    const parsed = schema.safeParse(request.body)
 
     if (!parsed.success) {
       return reply.status(400).send({ error: parsed.error.errors })
@@ -39,6 +39,7 @@ export async function createTrip(app: FastifyInstance) {
     }
 
     if (dayjs(ends_at).isBefore(starts_at)) {
+      console.log(ends_at)
       return reply.status(400).send({ error: 'Invalid trip end date' })
     }
 
@@ -53,7 +54,7 @@ export async function createTrip(app: FastifyInstance) {
               {
                 name: owner_name,
                 email: owner_email,
-                is_owner: true, 
+                is_owner: true,
                 is_confirmed: true
               },
               ...users_to_invite.map(user => {
@@ -70,9 +71,9 @@ export async function createTrip(app: FastifyInstance) {
 
     const formattedStartDate = dayjs(starts_at).format("LL")
     const formattedEndDate = dayjs(ends_at).format("LL")
-    
+
     // add confirmation link to e-mail
-    const confirmationLink = `http://localhost:3333/trips:/${trip.id}/confirm` 
+    const confirmationLink = `http://localhost:3333/trips/${trip.id}/confirm-trip`
 
     const mail = await getMailClient()
     const message = await mail.sendMail({
@@ -85,7 +86,7 @@ export async function createTrip(app: FastifyInstance) {
         address: owner_email,
       },
       subject: 'Viagem Criada com Sucesso!',
-      html: `<p>Sua viagem para ${destination} em ${formattedStartDate} até ${formattedEndDate} foi agendada com sucesso</p>`.trim(),
+      html: `<p>Sua viagem para ${destination} em ${formattedStartDate} até ${formattedEndDate} foi agendada com sucesso: <a href="${confirmationLink}"> Confirmar viagem. </a></p> `.trim(),
       // TO-DO: create e-mail template with {{ mustache }}
     })
 
