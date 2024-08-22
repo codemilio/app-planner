@@ -1,4 +1,9 @@
 import fastify from 'fastify'
+import cors from '@fastify/cors'
+// import {
+//   serializerCompiler,
+//   validatorCompiler,
+// } from 'fastify-type-provider-zod'
 
 import { confirmTrip } from './routes/confirm-trip'
 import { confirmParticipant } from './routes/confirm-participant'
@@ -11,8 +16,16 @@ import { getParticipants } from './routes/get-participants'
 import { createInvite } from './routes/create-invite'
 import { updateTrip } from './routes/update-trip'
 import { getTrip } from './routes/get-trip'
+import { getParticipant } from './routes/get-participant'
 
 const app = fastify()
+
+app.register(cors, {
+  origin: '*'
+})
+
+// app.setValidatorCompiler(validatorCompiler)
+// app.setSerializerCompiler(serializerCompiler)
 
 // Trip
 app.register(confirmTrip)
@@ -23,6 +36,7 @@ app.register(getTrip)
 // Participants
 app.register(confirmParticipant)
 app.register(getParticipants)
+app.register(getParticipant)
 
 // Link 
 app.register(createLink)
