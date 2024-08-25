@@ -1,9 +1,5 @@
-import { Button } from "./button"
-import { Input } from "./input"
-import { Loading } from "./loading"
+import { Button } from './button'
+import { Input } from './input'
+import { Loading } from './loading'
 
-export {
-  Button,
-  Input,
-  Loading
-}
+export { Button, Input, Loading }
