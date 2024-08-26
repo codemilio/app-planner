@@ -1,4 +1,10 @@
 {
+  "name": "planner-root",
+  "version": "0.0.1",
+  "workspaces": ["api", "mobile"],
+  "scripts": {
+    "install:all": "npm install"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3"
   }
